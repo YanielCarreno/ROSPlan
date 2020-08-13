@@ -20,7 +20,7 @@ namespace KCL_rosplan {
 		// start planning action server
 		plan_server->start();
 	}
-	
+
 	POPFPlannerInterface::~POPFPlannerInterface()
 	{
 		delete plan_server;
@@ -64,7 +64,7 @@ namespace KCL_rosplan {
 		if(dit!=std::string::npos) str.replace(dit,6,domain_path);
 		std::size_t pit = str.find("PROBLEM");
 		if(pit!=std::string::npos) str.replace(pit,7,problem_path);
-		std::string commandString = str + " > " + data_path + "plan.pddl";
+		std::string commandString = str + " > " + data_path + plan_name;
 
 		// call the planer
 		ROS_INFO("KCL: (%s) (%s) Running: %s", ros::this_node::getName().c_str(), problem_name.c_str(),  commandString.c_str());
@@ -73,7 +73,7 @@ namespace KCL_rosplan {
 
 		// check the planner solved the problem
 		std::ifstream planfile;
-		planfile.open((data_path + "plan.pddl").c_str());
+		planfile.open((data_path + plan_name).c_str());
 		std::string line;
 		std::stringstream ss;
 
@@ -121,7 +121,7 @@ namespace KCL_rosplan {
 		ros::NodeHandle nh("~");
 
 		KCL_rosplan::POPFPlannerInterface pi(nh);
-		
+
 		// subscribe to problem instance
 		std::string problemTopic = "problem_instance";
 		nh.getParam("problem_topic", problemTopic);

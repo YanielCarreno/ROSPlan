@@ -18,7 +18,7 @@ namespace KCL_rosplan {
 	/*--------------------*/
 
 	/**
-	 * planning system service method (1) 
+	 * planning system service method (1)
 	 * loads parameters from param server
 	 */
 	bool PlannerInterface::runPlanningServerDefault(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res) {
@@ -29,6 +29,7 @@ namespace KCL_rosplan {
 		domain_path = "common/domain.pddl";
 		problem_path = "common/problem.pddl";
 		planner_command = "timeout 60 common/bin/popf -n DOMAIN PROBLEM";
+		plan_name = "plan.pddl";
 
 		// load params
 		node_handle->getParam("use_problem_topic", use_problem_topic);
@@ -36,13 +37,14 @@ namespace KCL_rosplan {
 		node_handle->getParam("data_path", data_path);
 		node_handle->getParam("problem_path", problem_path);
 		node_handle->getParam("planner_command", planner_command);
+		node_handle->getParam("plan_name", plan_name);
 
 		// call planning server
 		return runPlanningServer(domain_path, problem_path, data_path, planner_command, use_problem_topic);
 	}
 
 	/**
-	 * planning system service method (2) 
+	 * planning system service method (2)
 	 * loads parameters from service request
 	 */
 	bool PlannerInterface::runPlanningServerParams(rosplan_dispatch_msgs::PlanningService::Request &req, rosplan_dispatch_msgs::PlanningService::Response &res) {
@@ -52,7 +54,7 @@ namespace KCL_rosplan {
 	}
 
 	/**
-	 * planning system service method (3) 
+	 * planning system service method (3)
 	 * loads parameters from actionlib goal
 	 */
 	void PlannerInterface::runPlanningServerAction(const rosplan_dispatch_msgs::PlanGoalConstPtr& goal) {
@@ -63,7 +65,7 @@ namespace KCL_rosplan {
 			plan_server->setAborted();
 		}
 	}
-	
+
 	/**
 	 * planning system; prepares planning; calls planner; parses plan.
 	 */
@@ -79,7 +81,7 @@ namespace KCL_rosplan {
         // check if data_path ends in "/" and add "/" if not
         const char *last_char = &data_path.back();
         if (strcmp(last_char,"/") != 0)data_path = data_path + "/";
-		
+
 		// set problem name for ROS_INFO
 		std::size_t lastDivide = problem_path.find_last_of("/\\");
 		if(lastDivide != std::string::npos) {

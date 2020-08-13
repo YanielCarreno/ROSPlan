@@ -31,6 +31,7 @@ namespace KCL_rosplan {
 		std::string problem_path;
 		std::string problem_name;
 		std::string data_path;
+		std::string plan_name;
 
 		/* planner outputs */
 		std::string planner_output;
