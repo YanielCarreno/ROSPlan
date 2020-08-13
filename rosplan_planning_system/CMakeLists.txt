@@ -109,14 +109,20 @@ target_link_libraries(simulatedAction ${catkin_LIBRARIES})
 
 ## Declare libraries
 # rosplan_planning_system does not dispatch VALfiles as a library anymore.
-add_library(rosplan_action_interface src/ActionInterface/RPActionInterface.cpp)
+add_library(rosplan_action_interface src/ActionInterface/RPActionInterface.cpp  src/ActionInterface/MRPActionInterface.cpp)
 add_dependencies(rosplan_action_interface ${catkin_EXPORTED_TARGETS})
+
+#add_library(multiagent_rosplan_action_interface src/ActionInterface/MRPActionInterface.cpp)
+#add_dependencies(multiagent_rosplan_action_interface ${catkin_EXPORTED_TARGETS})
+
+
+
 
 #############
 ## Install ##
 #############
 
-install(TARGETS rosplan_action_interface simulatedAction
+install(TARGETS rosplan_action_interface simulatedAction 
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -131,6 +137,7 @@ install(DIRECTORY include/rosplan_action_interface
   DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
   PATTERN ".svn" EXCLUDE
 )
+
 
 # This should probably go to the package bin directory,
 # but there is no simple way to determine this path from

@@ -23,6 +23,7 @@ add_message_files(
   ExprComposite.msg
   KnowledgeItem.msg
   StatusUpdate.msg
+  action_nav.msg
 )
 
 ## Generate services in the 'srv' folder
