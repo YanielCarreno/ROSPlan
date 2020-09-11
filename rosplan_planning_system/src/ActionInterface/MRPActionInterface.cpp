@@ -167,7 +167,9 @@ namespace KCL_rosplan {
 			}
 		}
 		for(size_t i=0; i<msg->parameters.size(); i++) {
-			if(0==msg->parameters[i].value.compare(robot.r_name)) {
+			std::string str = robot.r_name;
+      std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+			if(0==msg->parameters[i].value.compare(str)) {
 				// send feedback (enabled)
 				rosplan_dispatch_msgs::ActionFeedback fb;
 				fb.action_id = msg->action_id;
