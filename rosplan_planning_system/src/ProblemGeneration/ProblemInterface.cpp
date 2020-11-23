@@ -125,6 +125,23 @@ namespace KCL_rosplan {
 			problem_name = problem_path;
 		}
 
+
+		// added by Yaniel Carreno: clear the problem file before generating a new one.
+		// start
+		ROS_INFO("KCL: (%s) (%s) Clearing the problem file.", ros::this_node::getName().c_str(), problem_name.c_str());
+
+		std::string problem_clear = problem_path;
+
+		std::ofstream ofs;
+
+    ofs.open(problem_clear.c_str(), std::ofstream::out | std::ofstream::trunc);
+
+    ofs.close();
+
+		// end
+
+
+
 		ROS_INFO("KCL: (%s) (%s) Generating problem file.", ros::this_node::getName().c_str(), problem_name.c_str());
 		problem_generator->generateProblemFile(problem_path);
 		ROS_INFO("KCL: (%s) (%s) The problem was generated.", ros::this_node::getName().c_str(), problem_name.c_str());
