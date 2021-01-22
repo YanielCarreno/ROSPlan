@@ -17,7 +17,7 @@ namespace KCL_rosplan {
         action_timeout_fraction = 0;
         nh.getParam("timeout_actions", timeout_actions);
         nh.getParam("action_timeout_fraction", action_timeout_fraction);
-        
+
         std::string planTopic = "complete_plan";
         nh.getParam("plan_topic", planTopic);
 
@@ -65,9 +65,9 @@ namespace KCL_rosplan {
     /* Plan subscription */
     /*-------------------*/
 
-    
+
         void EsterelPlanDispatcher::planCallback(const rosplan_dispatch_msgs::EsterelPlan plan) {
-       
+
                 if(finished_execution) {
                         ROS_INFO("KCL: (%s) Plan received.", ros::this_node::getName().c_str());
                         plan_received = true;
@@ -117,7 +117,7 @@ namespace KCL_rosplan {
 
 
             finished_execution = true;
-            state_changed = false; 
+            state_changed = false;
 
             // for each node check completion, conditions, and dispatch
             for(std::vector<rosplan_dispatch_msgs::EsterelPlanNode>::const_iterator ci = current_plan.nodes.begin(); ci != current_plan.nodes.end(); ci++) {
@@ -127,8 +127,8 @@ namespace KCL_rosplan {
                 if(node.node_type == rosplan_dispatch_msgs::EsterelPlanNode::PLAN_START && !plan_started) {
 
                         // record the time for the PLAN_START node
-                        double NOW = ros::Time::now().toSec();    
-                        node_real_dispatch_time.insert (std::pair<int,double>(node.node_id, NOW)); 
+                        double NOW = ros::Time::now().toSec();
+                        node_real_dispatch_time.insert (std::pair<int,double>(node.node_id, NOW));
 
                         // activate new edges
                         std::vector<int>::const_iterator ci = node.edges_in.begin();
@@ -141,16 +141,16 @@ namespace KCL_rosplan {
                         plan_started = true;
                 }
 
-                                 
+
                 // do not check actions for nodes which are not action nodes
                 if(node.node_type != rosplan_dispatch_msgs::EsterelPlanNode::ACTION_START && node.node_type != rosplan_dispatch_msgs::EsterelPlanNode::ACTION_END)
                     continue;
-                                
+
                 // If at least one node is still executing we are not done yet
                 if (action_dispatched[node.action.action_id] && !action_completed[node.action.action_id]) {
                     finished_execution = false;
                 }
-                                
+
                 // check action edges
                 bool edges_activate_action = true;
                 std::vector<int>::iterator eit = node.edges_in.begin();
@@ -205,8 +205,8 @@ namespace KCL_rosplan {
 
                         // check the current time with the lower bound
                          double NOW = ros::Time::now().toSec();
-                         if (NOW - planStartTime < minimum_dispatch_time) { 
-                            
+                         if (NOW - planStartTime < minimum_dispatch_time) {
+
                             times_activate_action = false;
                             finished_execution = false;
                             break;
@@ -259,9 +259,9 @@ namespace KCL_rosplan {
                                 node.action.duration);
 
                         action_dispatch_publisher.publish(node.action);
-                        
+
                         // record the dispatch time for action start node
-                        double NOW = ros::Time::now().toSec();    
+                        double NOW = ros::Time::now().toSec();
                         node_real_dispatch_time.insert (std::pair<int,double>(node.node_id, NOW));
 
                         state_changed = true;
@@ -345,8 +345,8 @@ namespace KCL_rosplan {
                     rosplan_dispatch_msgs::EsterelPlanNode node = *ci;
                     if(node.action.action_id == msg->action_id && node.node_type == rosplan_dispatch_msgs::EsterelPlanNode::ACTION_END){
                         // record the time for the end action node
-                        double NOW = ros::Time::now().toSec();    
-                        node_real_dispatch_time.insert (std::pair<int,double>(node.node_id, NOW)); 
+                        double NOW = ros::Time::now().toSec();
+                        node_real_dispatch_time.insert (std::pair<int,double>(node.node_id, NOW));
                     }
                 }
                 action_completed[msg->action_id] = true;

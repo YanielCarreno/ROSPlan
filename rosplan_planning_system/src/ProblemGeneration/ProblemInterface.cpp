@@ -138,11 +138,13 @@ namespace KCL_rosplan {
 
     ofs.close();
 
+
 		// end
 
 
 
 		ROS_INFO("KCL: (%s) (%s) Generating problem file.", ros::this_node::getName().c_str(), problem_name.c_str());
+
 		problem_generator->generateProblemFile(problem_path);
 		ROS_INFO("KCL: (%s) (%s) The problem was generated.", ros::this_node::getName().c_str(), problem_name.c_str());
 
@@ -153,7 +155,6 @@ namespace KCL_rosplan {
 			problemMsg.data = std::string(std::istreambuf_iterator<char>(problemIn), std::istreambuf_iterator<char>());
 			problem_publisher.publish(problemMsg);
 		}
-
 		return true;
 	}
 } // close namespace
