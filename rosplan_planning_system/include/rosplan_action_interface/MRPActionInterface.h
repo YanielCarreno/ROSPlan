@@ -10,7 +10,7 @@
 #include "rosplan_knowledge_msgs/GetDomainOperatorDetailsService.h"
 #include "rosplan_knowledge_msgs/GetDomainPredicateDetailsService.h"
 #include "diagnostic_msgs/KeyValue.h"
-#include <rosplan_knowledge_msgs/action_nav.h>
+#include <rosplan_knowledge_msgs/RobotName.h>
 
 #ifndef KCL_action_interface
 #define KCL_action_interface
@@ -33,7 +33,7 @@ namespace KCL_rosplan {
 		/* PDDL info and publisher */
 		std::map<std::string, rosplan_knowledge_msgs::DomainFormula> predicates;
 		rosplan_knowledge_msgs::DomainFormula params;
-		rosplan_knowledge_msgs::action_nav robot;
+		rosplan_knowledge_msgs::RobotName robot;
 		rosplan_knowledge_msgs::DomainOperator op;
 		ros::Publisher pddl_action_parameters_pub;
 
