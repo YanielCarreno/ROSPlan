@@ -141,6 +141,7 @@ namespace KCL_rosplan {
 	void MRPActionInterface::dispatchCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
 
 		// check action name
+
 		if(0==msg->name.compare("cancel_action")) {
             action_cancelled = true;
             return;

@@ -326,6 +326,9 @@ namespace KCL_rosplan {
      */
     void EsterelPlanDispatcher::feedbackCallback(const rosplan_dispatch_msgs::ActionFeedback::ConstPtr& msg) {
 
+
+
+
         ROS_INFO("KCL: (%s) Feedback received [%i, %s]", ros::this_node::getName().c_str(), msg->action_id, msg->status.c_str());
 
         // action enabled
@@ -357,6 +360,7 @@ namespace KCL_rosplan {
         // action completed (failed)
         if(!action_completed[msg->action_id] && 0 == msg->status.compare("action failed")) {
 
+             
             // check action is part of current plan
             if(!action_received[msg->action_id]) {
                 ROS_WARN("KCL: (%s) Action not yet dispatched, ignoring feedback", ros::this_node::getName().c_str());
